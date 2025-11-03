@@ -1,0 +1,25 @@
+# Node.js dependencies
+backend/node_modules/
+frontend/node_modules/
+
+# Environment variables
+backend/.env
+frontend/.env
+
+# Logs
+logs
+*.log
+
+# Build files
+backend/dist/
+frontend/dist/
+frontend/build/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Coverage or test outputs
+coverage/
