@@ -1,10 +1,6 @@
-import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import pool from "../config/db.js";
-import { protect } from "../middleware/auth.js";
-
-const router = express.Router();
 
 const cookieOptions = {
   httpOnly: true,
@@ -21,7 +17,7 @@ const generateToken = (id) => {
 
 // Register
 
-router.post("/register", async (req, res) => {
+export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -50,10 +46,10 @@ router.post("/register", async (req, res) => {
   res.cookie("token", token, cookieOptions);
 
   return res.status(201).json({ user: newUser.rows[0] });
-});
+};
 
 // Login
-router.post("/login", async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res
@@ -88,18 +84,16 @@ router.post("/login", async (req, res) => {
       email: userData.email,
     },
   });
-});
+};
 
 // Me
-router.get("/me", protect, async (req, res) => {
+export const userInfo = async (req, res) => {
   res.json(req.user);
   // return info of the logged in user from protect middleware
-});
+};
 
 // Logout
-router.post("/logout", (req, res) => {
+export const logout = (req, res) => {
   res.cookie("token", "", { ...cookieOptions, maxAge: 1 });
   res.json({ message: "Logged out successfully" });
-});
-
-export default router;
+};

@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("/api/auth/me");
+        const res = await axios.get("/api/auth/userInfo");
         setUser(res.data);
       } catch (err) {
         setUser(null);

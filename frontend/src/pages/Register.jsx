@@ -18,7 +18,7 @@ const Register = ({ setUser }) => {
       setUser(res.data.user);
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/");
       }, 1500);
     } catch (err) {
       setError("Registration failed");
