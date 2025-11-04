@@ -11,6 +11,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./components/NotFound";
+import Stores from "../../../expense-expiry-tracker/frontend/src/pages/stores";
+import Dashboard from "./pages/Dashboard";
 
 axios.defaults.withCredentials = true;
 
@@ -25,6 +27,7 @@ function App() {
         const res = await axios.get("/api/auth/userInfo");
         setUser(res.data);
       } catch (err) {
+        console.error(err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -49,6 +52,14 @@ function App() {
         <Route
           path="/register"
           element={user ? <Navigate to="/" /> : <Register setUser={setUser} />}
+        />
+        <Route
+          path="/dashboard"
+          element={user ? <Dashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/stores"
+          element={user ? <Stores /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

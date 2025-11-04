@@ -12,6 +12,18 @@ const Home = ({ user, error }) => {
               Welcome, {user.name}!
             </h2>
             <p className="text-gray-600">Email: {user.email}</p>
+            <Link
+              to="/stores"
+              className="bg-blue-500 px-4 py-2 rounded-full text-white mt-6 inline-block hover:bg-blue-600"
+            >
+              Go to stores
+            </Link>
+            <Link
+              to="/dashboard"
+              className="bg-blue-500 px-4 py-2 rounded-full text-white mt-6 inline-block hover:bg-blue-600"
+            >
+              Visit Dashboard
+            </Link>
           </div>
         ) : (
           <div>

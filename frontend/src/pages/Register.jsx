@@ -14,14 +14,16 @@ const Register = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/register", form);
+      const res = await axios.post("/api/auth/register", form, {
+        withCredentials: true,
+      });
       setUser(res.data.user);
 
       setTimeout(() => {
         navigate("/");
       }, 1500);
     } catch (err) {
-      setError("Registration failed");
+      setError("Registration failed", err);
     }
   };
 
