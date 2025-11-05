@@ -98,14 +98,33 @@ const Stores = () => {
       </form>
 
       {/* Store List */}
-      <div className="grid gap-4">
+      <div className="grid gap-4 bg-amber-700">
         {stores.map((store) => (
           <div
             key={store.id}
             className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
           >
-            <div>
+            <div className="cursor-pointer">
               <h3 className="text-lg font-semibold">{store.name}</h3>
+              <div className="mt-2 flex gap-2">
+                <button
+                  onClick={() =>
+                    (window.location.href = `/inventory/${store.id}`)
+                  }
+                  className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                >
+                  Inventory
+                </button>
+                <button
+                  onClick={() =>
+                    (window.location.href = `/expenses/${store.id}`)
+                  }
+                  className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                >
+                  Expenses
+                </button>
+              </div>
+
               <p className="text-sm text-gray-600">
                 {store.location || "No location"} • {store.currency}
               </p>

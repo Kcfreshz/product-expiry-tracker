@@ -13,6 +13,8 @@ import Register from "./pages/Register";
 import NotFound from "./components/NotFound";
 import Stores from "../../../expense-expiry-tracker/frontend/src/pages/stores";
 import Dashboard from "./pages/Dashboard";
+import Inventory from "./pages/Inventory";
+import Expenses from "./pages/Expenses";
 
 axios.defaults.withCredentials = true;
 
@@ -61,6 +63,8 @@ function App() {
           path="/stores"
           element={user ? <Stores /> : <Navigate to="/login" />}
         />
+        <Route path="/inventory/:storeId" element={<Inventory />} />
+        <Route path="/expenses/:storeId" element={<Expenses />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
