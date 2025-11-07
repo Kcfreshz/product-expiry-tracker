@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-// import axios from "../axios/axiosInstance";
+// import axios from "axios";
+import API from "../api/axiosInstance";
 
 const Inventory = () => {
   const { storeId } = useParams();
   const [items, setItems] = useState([]);
+
   const [form, setForm] = useState({
     name: "",
     quantity: "",
@@ -16,7 +17,7 @@ const Inventory = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get(`/inventory/${storeId}`);
+      const res = await API.get(`/api/inventory/${storeId}`);
       setItems(res.data);
     } catch (err) {
       console.error(err);
@@ -31,9 +32,9 @@ const Inventory = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`/inventory/${editingId}`, { ...form, storeId });
+        await API.put(`/api/inventory/${editingId}`, { ...form, storeId });
       } else {
-        await axios.post("/inventory", { ...form, storeId });
+        await API.post("/api/inventory", { ...form, storeId });
       }
       setForm({ name: "", quantity: "", price: "", expiry_date: "" });
       setEditingId(null);
@@ -55,7 +56,7 @@ const Inventory = () => {
 
   const handleDelete = async (id) => {
     if (confirm("Delete this item?")) {
-      await axios.delete(`/inventory/${id}`, { data: { storeId } });
+      await API.delete(`/api/inventory/${id}`, { data: { storeId } });
       fetchItems();
     }
   };
@@ -118,36 +119,37 @@ const Inventory = () => {
 
       {/* Inventory List */}
       <div className="grid gap-4">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
-          >
-            <div>
-              <h3 className="text-lg font-semibold">{item.name}</h3>
-              <p className="text-sm text-gray-600">
-                Qty: {item.quantity} • ₦{item.price.toLocaleString()} •{" "}
-                {item.expiry_date
-                  ? `Exp: ${item.expiry_date.split("T")[0]}`
-                  : "No expiry"}
-              </p>
+        {Array.isArray(items) &&
+          items?.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
+            >
+              <div>
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <p className="text-sm text-gray-600">
+                  Qty: {item.quantity} • ₦{item.price.toLocaleString()} •{" "}
+                  {item.expiry_date
+                    ? `Exp: ${item.expiry_date.split("T")[0]}`
+                    : "No expiry"}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEdit(item)}
+                  className="bg-yellow-500 text-white px-3 py-1 rounded"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(item.id)}
+                  className="bg-red-600 text-white px-3 py-1 rounded"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(item)}
-                className="bg-yellow-500 text-white px-3 py-1 rounded"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(item.id)}
-                className="bg-red-600 text-white px-3 py-1 rounded"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

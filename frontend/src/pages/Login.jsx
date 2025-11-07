@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from "react";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import API from "../api/axiosInstance";
 
-const Login = ({ setUser }) => {
+const Login = () => {
+  const { setUser } = useContext(AuthContext);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -13,7 +17,7 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", form, {
+      const res = await API.post("api/auth/login", form, {
         withCredentials: true,
       });
 

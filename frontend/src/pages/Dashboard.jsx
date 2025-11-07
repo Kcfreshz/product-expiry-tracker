@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+import API from "../api/axiosInstance";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
@@ -8,7 +9,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const res = await axios.get("/reports/summary");
+        const res = await API.get("/api/reports/summary");
         setSummary(res.data);
       } catch (err) {
         console.error(err);

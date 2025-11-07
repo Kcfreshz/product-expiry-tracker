@@ -31,13 +31,19 @@ export const createItem = async (req, res) => {
 export const getItems = async (req, res) => {
   const { storeId } = req.params;
   try {
+    console.log("Fetching items for store:", storeId, "user:", req.user.id);
+
     const store = await getStoreByIdModel(storeId, req.user.id);
+
+    console.log("Store found:", store);
+
     if (!store)
       return res.status(403).json({ message: "Not authorized for this store" });
 
     const items = await getItemsByStoreModel(storeId);
     res.json(items);
   } catch (error) {
+    console.error("❌ getItems error:", error); // add this
     res.status(500).json({ message: error.message });
   }
 };

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useContext } from "react";
+// import axios from "axios";
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,32 +11,36 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./components/NotFound";
-import Stores from "../../../expense-expiry-tracker/frontend/src/pages/stores";
+import Stores from "./pages/Stores";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
 import Expenses from "./pages/Expenses";
+import { AuthContext } from "./context/AuthContext";
+import API from "./api/axiosInstance";
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  // const [user, setUser] = useState(null);
+  // const [error, setError] = useState("");
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get("/api/auth/userInfo");
-        setUser(res.data);
-      } catch (err) {
-        console.error(err);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const res = await axios.get("/api/auth/userInfo");
+  //       setUser(res.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //       setUser(null);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
+
+  const { user, setUser, loading, error } = useContext(AuthContext);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -63,8 +67,14 @@ function App() {
           path="/stores"
           element={user ? <Stores /> : <Navigate to="/login" />}
         />
-        <Route path="/inventory/:storeId" element={<Inventory />} />
-        <Route path="/expenses/:storeId" element={<Expenses />} />
+        <Route
+          path="/inventory/:storeId"
+          element={user ? <Inventory /> : <Navigate to="login" />}
+        />
+        <Route
+          path="/expenses/:storeId"
+          element={user ? <Expenses /> : <Navigate to="login" />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

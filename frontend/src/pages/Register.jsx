@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from "react";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import API from "../api/axiosInstance";
 
-const Register = ({ setUser }) => {
+const Register = () => {
+  const { setUser } = useContext(AuthContext);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -14,7 +18,7 @@ const Register = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/register", form, {
+      const res = await API.post("api/auth/register", form, {
         withCredentials: true,
       });
       setUser(res.data.user);

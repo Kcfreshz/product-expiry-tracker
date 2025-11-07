@@ -5,7 +5,8 @@ import pool from "../config/db.js";
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "Strict",
+  // sameSite: "Strict",
+  sameSite: "lax",
   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 };
 
@@ -86,8 +87,12 @@ export const login = async (req, res) => {
   });
 };
 
-// Me
+// User Info
 export const userInfo = async (req, res) => {
+  // console.log(req.user);
+  // if (!req.user) {
+  //   return res.status(400).json({ message: "No user info" });
+  // }
   res.json(req.user);
   // return info of the logged in user from protect middleware
 };

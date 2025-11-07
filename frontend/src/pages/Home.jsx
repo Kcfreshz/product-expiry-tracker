@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-const Home = ({ user, error }) => {
+const Home = () => {
+  const { user, error } = useContext(AuthContext);
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg text-center">
@@ -24,6 +27,7 @@ const Home = ({ user, error }) => {
             >
               Visit Dashboard
             </Link>
+            <Link to="/stores">Go to Stores</Link>
           </div>
         ) : (
           <div>
